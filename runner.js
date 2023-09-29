@@ -22,22 +22,24 @@ class FolderRunner {
       console.log('Folders in the root directory:');
       folders.forEach((folder) => {
         console.log(folder);
+        if(folder != ".git"){
+            // Start 'index.js' in each folder as a child process
+            
+            const indexPath = path.join(this.rootFolderPath, folder, 'index.js');
+            const childProcess = spawn('node', [indexPath]);
 
-        // Start 'index.js' in each folder as a child process
-        const indexPath = path.join(this.rootFolderPath, folder, 'index.js');
-        const childProcess = spawn('node', [indexPath]);
-        
-        childProcess.stdout.on('data', (data) => {
-          console.log(`\n${folder} Output: \n${data}`);
-        });
+            childProcess.stdout.on('data', (data) => {
+            console.log(`\n${folder} Output: \n${data}`);
+            });
 
-        childProcess.stderr.on('data', (data) => {
-          console.error(`${folder} Error: ${data}`);
-        });
+            childProcess.stderr.on('data', (data) => {
+            console.error(`${folder} Error: ${data}`);
+            });
 
-        childProcess.on('close', (code) => {
-          console.log(`${folder} exited with code ${code}`);
-        });
+            childProcess.on('close', (code) => {
+            console.log(`${folder} exited with code ${code}`);
+            });
+        }
       });
     });
   }
