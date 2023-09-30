@@ -50,82 +50,19 @@ app.get('/addRecepie/:rname/:ing', RecepieController.getaddRecepie);
 
 app.post('/addRecepie',RecepieController.postaddRecepie);
 
+app.get('/deleteRecepie', RecepieController.deleteRecepie)
+
+app.put('/updateRecepie', RecepieController.updateRecepie);
 // ========================================comment Block==================================
 
-app.get('/addComment/:uname', async (req, res) =>{
-    const currdate = new Date();
-    var temp = new Comment(req.params.uname,10,5,"lai bhari",currdate);
-    console.log("Response: ", await temp.addComment());
-    res.send("addComment"); 
-})
+app.get('/addComment/:uname', CommentController.getaddComment);
  
-app.post('/addComment',async (req,res) =>{
-    const {username,upvote,downvote,comment,createdAt} = req.body;
-    const parsedDate = new Date(createdAt);
-    const temp = new Comment(username,upvote,downvote,comment,parsedDate);
-    console.log("Response: ",await temp.addComment());
-    res.send("addComment");
-})
+app.post('/addComment',CommentController.postaddComment);
+
+app.put('/updateComment', CommentController.updateComment);
 
 // ======================================================================================
 
-app.put('/updateRecepie', async (req, res) => {
-    try {
-        const { newData, filter } = req.body;
-        const updatedRecepie = await Recepie.updateRecepie(filter, newData);
-        
-        console.log(updatedRecepie);
-  
-        if (updatedRecepie) {
-            console.log("RETURN WORKING");
-            res.status(201).json({ message: "Recepie updated successfully" });
-        } else {
-            console.log("MATHI KALI");
-            res.status(404).json({ message: "Recepie not found" });
-        }
-        
-        } catch (error) {    
-            console.log("Error Here");
-            console.log(error);
-            res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-app.put('/updateComment', async (req, res) => {
-    try {
-        const { newData, objId } = req.body;
-        //     var newData = {'name': "notBatli"};
-        //     var objId = {'_id':'6511670846cb4764af1433f5'};
-        const updatedComment = await Comment.updateComment(objId, newData);
-        
-        console.log(updatedComment);
-  
-        if (updatedComment) {
-            console.log("RETURN WORKING");
-            res.status(201).json({ message: "Comment updated successfully" });
-        } else {
-            console.log("MATHI KALI");
-            res.status(404).json({ message: "Comment not found" });
-        }
-        
-        } catch (error) {    
-            console.log("Error Here");
-            console.log(error);
-            res.status(500).json({ error: "Internal server error" });
-    }
-});
-
-app.get('/deleteRecepie', async(req, res) =>{
-    var objId = {"_id":'6511670846cb4764af1433f5'};
-    var bol = await Recepie.deleteRecepie(objId);
-    console.log(bol);
-    if (bol ){
-        console.log("RETURN WORKING");
-    } else {
-        console.log("MATHI KALI");
-    }
-    res.send("delete recepie");
-})
 
 app.get('*', (req, res) => {
     res.send("Route not matching or matching too early");
