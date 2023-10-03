@@ -46,9 +46,9 @@ app.put('/updateIngridient', IngredientController.putupdateIngredient);
 app.put('/deleteIngredient', IngredientController.deleteIngredient);
 
 // =====================================Recepie Block=====================================
-app.get('/addRecepie/:rname/:ing', RecepieController.getaddRecepie);
+// app.get('/addRecepie/:rname/:ing', RecepieController.getaddRecepie);
 
-app.post('/addRecepie',RecepieController.postaddRecepie);
+// app.post('/addRecepie',RecepieController.postaddRecepie);
 
 // ========================================comment Block==================================
 

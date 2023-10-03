@@ -10,8 +10,10 @@ fs.readFile(jsonFilePath, 'utf8', (err, data) => {
 
   try {
     const jsonData = JSON.parse(data);
-    console.log('JSON data from the file:\n', jsonData.mongo_db_connection_link);
+    console.log('JSON data from the file:\n', jsonData.views_service_base_port);
+    console.log('JSON data from the file:\n', jsonData.views_service_base_host);
   } catch (parseError) {
+    
     console.error('Error parsing JSON:', parseError);
   }
 });
