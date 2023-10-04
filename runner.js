@@ -22,25 +22,42 @@ class FolderRunner {
       console.log('Folders in the root directory:');
       folders.forEach((folder) => {
         console.log(folder);
-        if(folder != ".git"){
-            // Start 'index.js' in each folder as a child process
-            
+        if(folder == "client-service"){
+          const npmProcess = spawn('npm', ['run', 'dev'], {
+            cwd: path.join(this.rootFolderPath, folder),
+            shell: true, // Use a shell to execute npm command
+          });
+
+          npmProcess.stdout.on('data', async (data) => {
+            console.log(`\n${folder} Output: \n${data}`);
+          });
+
+          npmProcess.stderr.on('data', async (data) => {
+            console.error(`${folder} Error: ${data}`);
+          });
+
+          npmProcess.on('close',async (code) => {
+            console.log(`${folder} exited with code ${code}`);
+          });
+        }
+        else if(folder != ".git"){
             const indexPath = path.join(this.rootFolderPath, folder, 'index.js');
             const childProcess = spawn('node', [indexPath]);
 
-            childProcess.stdout.on('data', (data) => {
+            childProcess.stdout.on('data', async (data) => {
             console.log(`\n${folder} Output: \n${data}`);
             });
 
-            childProcess.stderr.on('data', (data) => {
+            childProcess.stderr.on('data', async (data) => {
             console.error(`${folder} Error: ${data}`);
             });
 
-            childProcess.on('close', (code) => {
+            childProcess.on('close', async (code) => {
             console.log(`${folder} exited with code ${code}`);
             });
         }
       });
+      console.log("All services have been booted");
     });
   }
 }
