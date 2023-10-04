@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { mongoConnect } = require('../database/database.js');
 
-mongoConnect('recepies');
+// mongoConnect('recepies');
 
 const recepieSchema = new mongoose.Schema({
     name: {

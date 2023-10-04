@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { mongoConnect } = require('../database/database.js');
 
-mongoConnect('comments');
+// mongoConnect('comments');
 
 const commentsSchema = new mongoose.Schema({
     username: {

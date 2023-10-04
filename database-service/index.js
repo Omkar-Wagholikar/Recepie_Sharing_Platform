@@ -3,6 +3,9 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
+const { mongoConnect } = require('./database/database.js');
+
+mongoConnect('Recepie_Project');
 
 const { Recepie } = require('./models/recepie.js');
 const { Ingredient }=require('./models/ingredients.js');
