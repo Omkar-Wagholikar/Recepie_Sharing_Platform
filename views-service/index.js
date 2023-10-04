@@ -12,7 +12,7 @@ const corsOptions = {
     credentials: true, // Allow credentials (cookies, HTTP authentication, etc.)
   };
   
-  app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, '/assets')));
 // app.use(cors());    	
@@ -41,3 +41,4 @@ app.get("/recipe", async(req, res) =>{
 app.get('*', (req, res) => {
     res.send("Route not matching or matching too early");
 })
+// some changes
