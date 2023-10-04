@@ -1,43 +1,33 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import fs from 'fs';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import fs from 'fs/promises'; // Use promises version of fs
 
 const jsonFilePath = '../links.json';
-var hostVal = 'localhost';
-var portVal = 3000
-fs.readFile(jsonFilePath, 'utf8', (err, data) => {
-  if (err) {
-    console.error('Error reading JSON file:', err);
-    return;
-  }
 
+async function getConfig() {
   try {
+    const data = await fs.readFile(jsonFilePath, 'utf8');
     const jsonData = JSON.parse(data);
-    console.log('front-end port:\n', jsonData.views_service_base_port);
-    console.log('front-end host:\n', jsonData.views_service_base_host);
-    hostVal = jsonData.views_service_base_host;
-    portVal = jsonData.views_service_base_port;
-  } catch (parseError) {
-    
-    console.error('Error parsing JSON:', parseError);
+    const hostVal = jsonData.views_service_base_host;
+    const portVal = jsonData.views_service_base_port;
+    console.log('front-end port:\n', portVal);
+    console.log('front-end host:\n', hostVal);
+    return { host: hostVal, port: portVal };
+  } catch (error) {
+    console.error('Error reading or parsing JSON file:', error);
+    return { host: 'localhost', port: 3000 }; // Default values if there's an error
   }
-});
+}
 
-export default defineConfig({
-  server: {
-    host: hostVal,
-    port: portVal,
-  },
-  plugins: [react({
-    include: "**/*.jsx",
-  })]
-})
+export default async () => {
+  const config = await getConfig();
 
-
-// https://vitejs.dev/config/
-// export default defineConfig({
-  // plugins: [react({
-  //   // Add this line
-  //   include: "**/*.jsx",
-  // })]
-// })
+  return defineConfig({
+    server: config,
+    plugins: [
+      react({
+        include: '**/*.jsx',
+      }),
+    ],
+  });
+};
