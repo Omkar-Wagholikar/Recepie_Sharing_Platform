@@ -44,6 +44,23 @@ class User{
     static async findOne(data) {
         console.log("Func not exisitng error");
     }
+    static async addUser(){
+        const tempRecepie = new RecepieModel({
+            name: this.recepieName,
+            ingredients: this.ingredients,
+            category: this.category,
+            user: this.user,
+            steps: this.steps
+        });
+        return await tempRecepie.save().then(data => {
+            console.log("Success");
+            console.log(data);
+            return true;
+        }).catch(e => {
+            console.log(e);
+            return false;
+        });
+    }
 }
 
 module.exports={

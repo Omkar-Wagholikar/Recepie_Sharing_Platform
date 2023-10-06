@@ -28,7 +28,7 @@ exports.postregister=async(req,res)=>{
         
         //Creating new user
         const newUser = await new User (firstname,lastname,phone,email.toLowerCase,encryptedPassword);
-
+        
         
         //*****************************ASK Omkar****************************************************
         //create token
