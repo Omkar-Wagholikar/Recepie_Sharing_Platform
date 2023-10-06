@@ -13,11 +13,14 @@ app.get('', (req, res) => {
     res.send("On Home Page somehow? ");
 })
 app.listen(port, ()=> {
-    console.log(`Listening on port ${port}`);
+    console.log(`Listening on port 4000`);
 })
 
 app.use(bodyParser.json());
 
+const authRouter=require('./routes/auth');
+
+app.use(authRouter);
 
 app.get('*', (req, res) => {
     res.send("Route not matching or matching too early");
