@@ -15,7 +15,7 @@ const RecepieController=require('./controller/recepie.js');
 const IngredientController =require('./controller/ingredients.js');
 const CommentController=require('./controller/comments.js');
 
-const port = 3000;
+const port = 3001;
 
 app.use(express.static(path.join(__dirname, '/assets')));
 app.set('view engine', 'ejs');
