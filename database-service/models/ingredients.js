@@ -78,7 +78,6 @@ class Ingredient{
           console.error(error);
           return error;
         });
-
     }
 }
 

@@ -1,7 +1,7 @@
 const { User } = require('../models/usermodel');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-
+const TOKEN_KEY="your_secret_key_here"
 exports.postregister=async(req,res)=>{
     try{
         const {firstname,lastname,phone,email,password} = req.body;
@@ -27,8 +27,8 @@ exports.postregister=async(req,res)=>{
         encryptedPassword = await bcrypt.hash(password,10);
         
         //Creating new user
-        const newUser = await new User (firstname,lastname,phone,email.toLowerCase,encryptedPassword);
-        
+        const newUser = await new User (firstname,lastname,phone,email,encryptedPassword);
+        newUser.addUser();
         
         //*****************************ASK Omkar****************************************************
         //create token
@@ -53,14 +53,22 @@ exports.postlogin=async(req,res)=>{
         }
         const user=await User.findOne({email});
         if(user && (await bcrypt.compare(password,user.password))){
+            //console.log(user);
             const token=jwt.sign({user_id: user._id,email},
-                process.env.TOKEN_KEY,
+                //process.env.TOKEN_KEY,
+                TOKEN_KEY,
                 {
                     expiresIn:"2h",
                 }
             );
-            user.token=token;
-            res.status(200).json(user);
+            //console.log(token,"hhuuhuuh");
+            //user.token=token;
+            const cookieOptions={
+                expiresIn: new Date(Date.now()+ 90*24*60*60*1000),
+                //httpOnly:true
+            }
+            res.cookie("userRegistered",token,cookieOptions);
+            return  res.status(200).json(user);
         }
         res.status(400).send("Invalid Credentials");
     }

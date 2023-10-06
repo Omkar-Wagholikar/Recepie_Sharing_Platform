@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     lastname: {
-        type: Number,
+        type: String,
         required: true
     },
     phone: {
@@ -23,11 +23,11 @@ const userSchema = new mongoose.Schema({
     password:{
         type : String,
         required:true
-    },
-    token : {
-        type:String,
-        required:true
     }
+    // token : {
+    //     type:String,
+    //     required:true
+    // }
 
 })
 
@@ -41,18 +41,28 @@ class User{
         this.email=email,
         this.password=password
     }
-    static async findOne(data) {
-        console.log("Func not exisitng error");
-    }
-    static async addUser(){
-        const tempRecepie = new RecepieModel({
-            name: this.recepieName,
-            ingredients: this.ingredients,
-            category: this.category,
-            user: this.user,
-            steps: this.steps
+    static async findOne(email) {
+        
+        return userModel.findOne(email)
+        .then((result)=>{
+            console.log(result);
+            return result;
+        })
+        .catch(err=>{
+            console.log(err);
+            return err;
         });
-        return await tempRecepie.save().then(data => {
+        
+    }
+    async addUser(){
+        const tempUser=new userModel({
+            firstname:this.firstname,
+            lastname:this.lastname,
+            phone:this.phone,
+            email:this.email,
+            password:this.password
+        });
+        return await tempUser.save().then(data => {
             console.log("Success");
             console.log(data);
             return true;
