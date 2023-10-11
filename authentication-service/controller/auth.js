@@ -1,7 +1,9 @@
 const { User } = require('../models/usermodel');
+const dotenv = require('dotenv');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const TOKEN_KEY="your_secret_key_here"
+dotenv.config();
+
 exports.postregister=async(req,res)=>{
     try{
         const {firstname,lastname,phone,email,password} = req.body;
@@ -19,6 +21,7 @@ exports.postregister=async(req,res)=>{
         const obj = await User.findOne(email);
         
         //check if email already exists
+        // ==============================================
         if(obj){
             return res.status(409).send("emailID is already registered");
         }
@@ -28,15 +31,9 @@ exports.postregister=async(req,res)=>{
         
         //Creating new user
         const newUser = await new User (firstname,lastname,phone,email,encryptedPassword);
-        newUser.addUser();
-        
-        //*****************************ASK Omkar****************************************************
-        //create token
-        // const token = jwt.sign({user_id:newUser._id,email},process.env.TOKEN_KEY,{expiresIN:"2h",});
-        // //sava user token
-        // newUser.token = token;
 
         //return new user
+        newUser.addUser();
         res.status(201).json(newUser);
         console.log(newUser);
     }
@@ -49,34 +46,26 @@ exports.postlogin=async(req,res)=>{
     try{
         const {email,password}=req.body;
         if(!(email && password)){
-            res.status(400).send("ALL input is required");
+            console.log("Here")
+            return res.status(400).send("ALL input is required");
         }
-        const user=await User.findOne({email});
+        const user=await User.findOne(email);
         if(user && (await bcrypt.compare(password,user.password))){
-            //console.log(user);
             const token=jwt.sign({user_id: user._id,email},
-                //process.env.TOKEN_KEY,
-                TOKEN_KEY,
-                {
-                    expiresIn:"2h",
-                }
+                process.env.TOKEN_KEY
             );
-            //console.log(token,"hhuuhuuh");
-            //user.token=token;
-            const cookieOptions={
-                expiresIn: new Date(Date.now()+ 90*24*60*60*1000),
-                //httpOnly:true
-            }
-            res.cookie("userRegistered",token,cookieOptions);
-            return  res.status(200).json(user);
+            user.token=token;
+            console.log(`Success for ${email}`);
+            return res.status(200).json({token});
         }
-        res.status(400).send("Invalid Credentials");
+        console.log("400 here");
+        return res.status(400).send("Invalid Credentials");
     }
     catch(err){
         console.log(err);
     }
 }
-
+// please explain how to use this
 exports.verifyToken=async (req,res)=>{
     const token= req.body.token || req.query.token || req.headers["x-access-token"];
     if(!token){

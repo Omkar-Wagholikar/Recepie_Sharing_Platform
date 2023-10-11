@@ -3,8 +3,16 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-
+const cors = require('cors');
 const port = 4000;
+
+
+const corsOptions = {
+    origin: 'http://localhost:3000', // Set the exact origin you want to allow
+    credentials: true, // Allow credentials (cookies, HTTP authentication, etc.)
+  };
+  
+app.use(cors(corsOptions));
 
 app.use(express.static(path.join(__dirname, '/assets')));
 app.set('view engine', 'ejs');

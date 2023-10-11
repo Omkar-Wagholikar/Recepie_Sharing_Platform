@@ -23,11 +23,11 @@ const userSchema = new mongoose.Schema({
     password:{
         type : String,
         required:true
+    },
+    token : {
+        type:String,
+        required:true
     }
-    // token : {
-    //     type:String,
-    //     required:true
-    // }
 
 })
 
@@ -41,29 +41,23 @@ class User{
         this.email=email,
         this.password=password
     }
-    static async findOne(email) {
-        
-        return userModel.findOne(email)
-        .then((result)=>{
-            console.log(result);
-            return result;
-        })
-        .catch(err=>{
-            console.log(err);
-            return err;
-        });
-        
+    static async findOne(data) {
+        console.log(await userModel.findOne({email: "function toLowerCase() { [native code] }"}));
+        return await userModel.findOne({email: data});
     }
+
     async addUser(){
-        const tempUser=new userModel({
-            firstname:this.firstname,
-            lastname:this.lastname,
-            phone:this.phone,
-            email:this.email,
-            password:this.password
-        });
-        return await tempUser.save().then(data => {
-            console.log("Success");
+        const tempComment = new userModel({
+            firstname: this.firstname,
+            lastname : this.lastname,
+            phone : this.phone,
+            email : this.email,
+            password : this.password,
+            token:"123"
+        })
+
+        return await tempComment.save().then(data => {
+            console.log("Added User");
             console.log(data);
             return true;
         }).catch(e => {
