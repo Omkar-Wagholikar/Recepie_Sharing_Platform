@@ -10,4 +10,6 @@ router.post('/register',adminRoutes.postregister);
 
 router.post('/login',adminRoutes.postlogin);
 
+router.get('/refresh', adminRoutes.getRefresh);
+
 module.exports=router;

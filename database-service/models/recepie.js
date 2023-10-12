@@ -21,6 +21,14 @@ const recepieSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    upvote:{
+        type:Number,
+        required:true
+    },
+    downvote:{
+        type:Number,
+        required:true
+    },
     steps:{
         type:String,
         required: false
@@ -35,6 +43,8 @@ class Recepie{
         this.ingredients = ingredients;
         this.category = category;
         this.user = user;
+        this.upvote = 0;
+        this.downvote = 0;
         this.steps = steps;
     }
 
@@ -45,6 +55,8 @@ class Recepie{
             ingredients: this.ingredients,
             category: this.category,
             user: this.user,
+            upvote:this.upvote,
+            downvote:this.downvote,
             steps: this.steps
         });
 

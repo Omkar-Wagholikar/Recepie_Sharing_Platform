@@ -1,5 +1,5 @@
 import { apiSlice } from "../../redux/apiSlice";
-
+var baseUrl = "http://localhost:4000"
 export const recipeApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRecipe: builder.query({
@@ -12,7 +12,7 @@ export const recipeApiSlice = apiSlice.injectEndpoints({
     }),
     addRecipe: builder.mutation({
       query: (recipeData) => ({
-        url: "/recipe",
+        url: baseUrl +"/recipe",
         method: "POST",
         body: { ...recipeData },
       }),
@@ -22,7 +22,7 @@ export const recipeApiSlice = apiSlice.injectEndpoints({
       query: (args) => {
         const { recipeId, ...recipeData } = args;
         return {
-          url: `/recipe/${recipeId}`,
+          url: baseUrl +`/recipe/${recipeId}`,
           method: "PUT",
           body: { ...recipeData },
         };
@@ -33,7 +33,7 @@ export const recipeApiSlice = apiSlice.injectEndpoints({
       query: (args) => {
         const { recipeId, rating } = args;
         return {
-          url: `/recipe/rate/${recipeId}`,
+          url: baseUrl +`/recipe/rate/${recipeId}`,
           method: "PUT",
           body: { rating },
         };
@@ -42,7 +42,7 @@ export const recipeApiSlice = apiSlice.injectEndpoints({
     }),
     deleteRecipe: builder.mutation({
       query: (recipeId) => ({
-        url: `/recipe/${recipeId}`,
+        url: baseUrl +`/recipe/${recipeId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["recipes"],
@@ -51,7 +51,7 @@ export const recipeApiSlice = apiSlice.injectEndpoints({
       query: (args) => {
         const { recipeId, comment } = args;
         return {
-          url: `/recipe/comment/${recipeId}`,
+          url: baseUrl +`/recipe/comment/${recipeId}`,
           method: "PUT",
           body: { comment },
         };
@@ -62,7 +62,7 @@ export const recipeApiSlice = apiSlice.injectEndpoints({
       query: (args) => {
         const { recipeId, commentId } = args;
         return {
-          url: `/recipe/comment/${recipeId}/${commentId}`,
+          url: baseUrl +`/recipe/comment/${recipeId}/${commentId}`,
           method: "DELETE",
         };
       },
@@ -71,7 +71,7 @@ export const recipeApiSlice = apiSlice.injectEndpoints({
     toggleFavorite: builder.mutation({
       query: ({ recipeId }) => {
         return {
-          url: `/recipe/favorite/${recipeId}`,
+          url: baseUrl +`/recipe/favorite/${recipeId}`,
           method: "PUT",
         };
       },

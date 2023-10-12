@@ -2,7 +2,12 @@ const { User } = require('../models/usermodel');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+require('dotenv').config();
+
 dotenv.config();
+exports.getRefresh = async(req,res) =>{
+    return res.send("hello world");
+}
 
 exports.postregister=async(req,res)=>{
     try{
@@ -18,7 +23,7 @@ exports.postregister=async(req,res)=>{
             return res.status(400).send("Enter required data");
         }
         
-        const obj = await User.findOne({email});
+        const obj = await User.findOne(email);
         
         //check if email already exists
         // ==============================================
@@ -30,12 +35,12 @@ exports.postregister=async(req,res)=>{
         encryptedPassword = await bcrypt.hash(password,10);
         
         //Creating new user
-        const newUser = await new User (firstname,lastname,phone,email,encryptedPassword);
+        const newUser = new User (firstname,lastname,phone,email,encryptedPassword);
 
         //return new user
         newUser.addUser();
-        res.status(201).json(newUser);
-        console.log(newUser);
+        console.log("New user added");
+        return res.status(201).json(newUser);
     }
     catch(err){
         console.log(err);
@@ -52,7 +57,7 @@ exports.postlogin=async(req,res)=>{
         const user=await User.findOne(email);
         if(user && (await bcrypt.compare(password,user.password))){
             const token=jwt.sign({user_id: user._id,email},
-                process.env.TOKEN_KEY
+                "TOKEN_KEY"
             );
             user.token=token;
             console.log(`Success for ${email}`);

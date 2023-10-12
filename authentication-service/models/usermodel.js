@@ -42,7 +42,6 @@ class User{
         this.password=password
     }
     static async findOne(data) {
-        console.log(await userModel.findOne({email: "function toLowerCase() { [native code] }"}));
         return await userModel.findOne({email: data});
     }
 
