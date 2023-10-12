@@ -16,7 +16,7 @@ exports.postregister=async(req,res)=>{
             return res.status(400).send("Enter required data");
         }
         
-        const obj = await User.findOne(email);
+        const obj = await User.findOne({email});
         
         //check if email already exists
         if(obj){
