@@ -21,26 +21,26 @@ class FolderRunner {
 
       console.log('Folders in the root directory:');
       folders.forEach((folder) => {
-        console.log(folder);
         if(folder == "client-service"){
-          const npmProcess = spawn('npm', ['run', 'dev'], {
-            cwd: path.join(this.rootFolderPath, folder),
-            shell: true, // Use a shell to execute npm command
-          });
+          // const npmProcess = spawn('npm', ['run', 'dev'], {
+          //   cwd: path.join(this.rootFolderPath, folder),
+          //   shell: true, // Use a shell to execute npm command
+          // });
 
-          npmProcess.stdout.on('data', async (data) => {
-            console.log(`\n${folder} Output: \n${data}`);
-          });
+          // npmProcess.stdout.on('data', async (data) => {
+          //   console.log(`\n${folder} Output: \n${data}`);
+          // });
 
-          npmProcess.stderr.on('data', async (data) => {
-            console.error(`${folder} Error: ${data}`);
-          });
+          // npmProcess.stderr.on('data', async (data) => {
+          //   console.error(`${folder} Error: ${data}`);
+          // });
 
-          npmProcess.on('close',async (code) => {
-            console.log(`${folder} exited with code ${code}`);
-          });
+          // npmProcess.on('close',async (code) => {
+          //   console.log(`${folder} exited with code ${code}`);
+          // });
         }
-        else if(folder != ".git"){
+        else if(folder != ".git" && folder != "node_modules"){
+            console.log(folder);
             const indexPath = path.join(this.rootFolderPath, folder, 'index.js');
             const childProcess = spawn('node', [indexPath]);
 
