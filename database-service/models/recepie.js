@@ -4,71 +4,105 @@ const { mongoConnect } = require('../database/database.js');
 // mongoConnect('recepies');
 
 const recepieSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        unique:true,
+    title: { type: String, required: true },
+    author: { type: String, required: true },
+    description: { type: String, required: true },
+    image: { type: String, required: true },
+    cookingTime: { type: String, required: true },
+    calories: { type: String, required: true },
+    ingredients: { type: [String], required: true },
+    instructions: { type: [String], required: true },
+    ratings:{
+        type:[
+            {
+                user:{
+                    type:String,
+                    required:true
+                },
+                rating:{
+                    type:String,
+                    required:true
+                }
+                
+            }
+        ]
     },
-    ingredients: {
-        type: Array,
-        required: true
+    comments:{  
+        type:[
+            {
+                user:{
+                    name:{
+                        type:String,
+                        required:true
+                    },
+                    profilePicture:{
+                        type:String,
+                        required:true
+                    } 
+                },
+                comment:{
+                    type:String,
+                    required:true
+                },
+                date:{
+                    type:Date,
+                    required:true
+                }
+                
+            }
+        ]
+        ,
+        required:false
     },
-    category: {
-        type: Boolean,
-        required: true
-    },
-    user:{
-        type: String,
-        required: true
-    },
-    upvote:{
-        type:Number,
-        required:true
-    },
-    downvote:{
-        type:Number,
-        required:true
-    },
-    steps:{
-        type:String,
-        required: false
-    }
-})
+    createdAt: { type: Date, required: true },
+    updatedAt: { type: Date, required: true },
+  });
 
 const RecepieModel = mongoose.model('Recepie', recepieSchema);
 
 class Recepie{
-    constructor(recepieName, ingredients, category, user, steps){
-        this.recepieName = recepieName;
-        this.ingredients = ingredients;
-        this.category = category;
-        this.user = user;
-        this.upvote = 0;
-        this.downvote = 0;
-        this.steps = steps;
-    }
+    
+  constructor(title, author, description, image, cookingTime, calories, ingredients, instructions, createdAt, updatedAt) {
+    this.title = title;
+    this.author = author;
+    this.description = description;
+    this.image = image;
+    this.cookingTime = cookingTime;
+    this.calories = calories;
+    this.ingredients = ingredients;
+    this.instructions = instructions;
+    this.ratings = [];  // Initialize ratings as an empty array
+    this.comments = [];  // Initialize comments as an empty array
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
 
-    async addRecepie(){
+  async addRecepie() {
+    const tempRecepie = new RecepieModel({
+      title: this.title,
+      author: this.author,
+      description: this.description,
+      image: this.image,
+      cookingTime: this.cookingTime,
+      calories: this.calories,
+      ingredients: this.ingredients,
+      instructions: this.instructions,
+      ratings: this.ratings,
+      comments: this.comments,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    });
 
-        const tempRecepie = new RecepieModel({
-            name: this.recepieName,
-            ingredients: this.ingredients,
-            category: this.category,
-            user: this.user,
-            upvote:this.upvote,
-            downvote:this.downvote,
-            steps: this.steps
-        });
+    return await tempRecepie.save().then(data => {
+      console.log("Success");
+      console.log(data);
+      return true;
+    }).catch(e => {
+      console.log(e);
+      return false;
+    });
+  }
 
-        return await tempRecepie.save().then(data => {
-            console.log("Success");
-            console.log(data);
-            return true;
-        }).catch(e => {
-            console.log(e);
-            return false;
-        });
-    }
 
     static async updateRecepie(filter, newData){
         return await RecepieModel.findOneAndUpdate(filter, newData).then(data => {
@@ -86,6 +120,17 @@ class Recepie{
             console.log("Success");
             console.log(data);
             return true;
+        }).catch(e => {
+            console.log("error");
+            console.log(e);
+            return false;
+        });
+    }
+    static async findRecepieById(id){
+        return await RecepieModel.findById(id).then(data=>{
+            console.log("success");
+            console.log(data);
+            return data;
         }).catch(e => {
             console.log("error");
             console.log(e);

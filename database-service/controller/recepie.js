@@ -1,13 +1,15 @@
 const {Recepie}=require('../models/recepie.js');
+const mongoose = require('mongoose')
 
 exports.getaddRecepie=async (req,res,next)=>{
-    var temp = new  Recepie(req.params.rname, ["a", "b"], false, "someone", "none");
+    var temp = new  Recepie(title, ingredients, description, image, cookingTime, calories,upvote,downvote, createdAt, updatedAt);
     console.log("Response: ", await temp.addRecepie());
     res.send("addRecepie"); 
 }
 exports.postaddRecepie=async (req,res,next)=>{
-    const {name,ingredients,category,user,steps} = req.body;
-    const temp = new Recepie(name,ingredients,category,user,steps);
+    const {title, author, description, image, cookingTime, calories, ingredients, instructions, createdAt, updatedAt} = req.body;
+    console.log(title, author, description, image, cookingTime, calories, ingredients, instructions, createdAt, updatedAt);
+    const temp = new Recepie(title, author, description, image, cookingTime, calories, ingredients, instructions, createdAt, updatedAt);
     console.log("Response: ", await temp.addRecepie());
     res.send("addRecepie"); 
 }
@@ -44,4 +46,23 @@ exports.deleteRecepie=async (req,res,next)=>{
         console.log("MATHI KALI");
     }
     res.send("update recepie");
+}
+
+exports.findRecepieById = async (req,res,next) =>{
+    // id parameter madhun ghyavi lagel
+    const {id} = req.query;
+    console.log(id);
+    try{
+        const recepie = await Recepie.findRecepieById(id);
+        console.log(recepie);
+        if(!recepie){
+            return res.status(404).send('Recepie not found');
+        }
+        console.log(recepie)
+        return res.json(recepie);
+    }
+    catch(error){
+        console.log(error);
+        return  res.status(500).send('Error finding recepie by ID')
+    }
 }

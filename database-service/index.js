@@ -56,6 +56,8 @@ app.post('/addRecepie',RecepieController.postaddRecepie);
 app.get('/deleteRecepie', RecepieController.deleteRecepie)
 
 app.put('/updateRecepie', RecepieController.updateRecepie);
+
+app.get('/findRecepie',RecepieController.findRecepieById)
 // ========================================comment Block==================================
 
 app.get('/addComment/:uname', CommentController.getaddComment);

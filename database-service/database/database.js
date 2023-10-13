@@ -10,7 +10,8 @@ const mongoConnect = () => {
 
     try {
       const configData = JSON.parse(data);
-      const mongoUrl = configData.mongo_db_connection_link;
+      // const mongoUrl = configData.mongo_db_connection_link;
+      const mongoUrl = 'mongodb+srv://ameysh123:ameysh@cluster0.qujwf2b.mongodb.net/RecepieCollection?retryWrites=true&w=majority';
       mongoose
         .connect(mongoUrl, {
           useNewUrlParser: true,

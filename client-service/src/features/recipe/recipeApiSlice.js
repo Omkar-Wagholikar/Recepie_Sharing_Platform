@@ -1,13 +1,13 @@
 import { apiSlice } from "../../redux/apiSlice";
-var baseUrl = "http://localhost:4000"
+var baseUrl = "http://localhost:5000"
 export const recipeApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRecipe: builder.query({
-      query: (recipeId) => `/recipe/${recipeId}`,
+      query: (recipeId) => baseUrl + `/recipe/${recipeId}`,
       providesTags: ["recipes"],
     }),
     getRecipes: builder.query({
-      query: () => "/recipe",
+      query: () => baseUrl + "/recipe",
       providesTags: ["recipes"],
     }),
     addRecipe: builder.mutation({
