@@ -129,7 +129,7 @@ class Recepie{
     static async findRecepieById(id){
         return await RecepieModel.findById(id).then(data=>{
             console.log("success");
-            console.log(data);
+            // console.log(data);
             return data;
         }).catch(e => {
             console.log("error");
