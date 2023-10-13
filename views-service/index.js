@@ -84,6 +84,9 @@ app.get("/recipe/:id", async (req, res) => {
     ))
 })
 
+const authRouter=require('./routes/view');
+
+app.use(authRouter);
 
 app.get('*', (req, res) => {
     res.send("Route not matching or matching too early");

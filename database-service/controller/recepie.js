@@ -48,6 +48,17 @@ exports.deleteRecepie=async (req,res,next)=>{
     res.send("update recepie");
 }
 
+exports.apisortbyrank=async (req,res,next)=>{
+  Recepie.sortbyrank()
+  .then(sortedRecipes=>{
+    res.send(sortedRecipes);
+  })
+  .catch(err=>{
+    console.log(err)
+  });
+}
+
+
 exports.findRecepieById = async (req,res,next) =>{
     // id parameter madhun ghyavi lagel
     const {id} = req.query;

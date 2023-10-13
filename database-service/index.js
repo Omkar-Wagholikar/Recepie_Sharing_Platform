@@ -57,7 +57,8 @@ app.get('/deleteRecepie', RecepieController.deleteRecepie)
 
 app.put('/updateRecepie', RecepieController.updateRecepie);
 
-app.get('/findRecepie',RecepieController.findRecepieById)
+app.get('/findRecepie',RecepieController.findRecepieById);
+app.get('/byrank',RecepieController.apisortbyrank);
 // ========================================comment Block==================================
 
 app.get('/addComment/:uname', CommentController.getaddComment);
