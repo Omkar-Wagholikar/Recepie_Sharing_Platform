@@ -104,7 +104,7 @@ app.get("/recipe", async(req, res) =>{
     "name": "Emily Smith"
   },
   "description": "Indulge in the rich taste of chocolate glazed donuts, perfect for a delightful dessert.",
-  "image": "https://images.pexels.com/photos/4057892/pexels-photo-4057892.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+  "image": "https://www.shutterstock.com/shutterstock/photos/1889885812/display_1500/stock-photo-mini-hamburger-withbeef-tomato-and-cheese-snack-1889885812.jpg",
   "cookingTime": "45",
   "calories": "380.5",
   "ingredients": ["2 cups all-purpose flour", "1/2 cup cocoa powder", "1 cup granulated sugar", "2 teaspoons baking powder", "1/2 teaspoon salt", "1 cup milk", "1/4 cup unsalted butter, melted", "1 large egg", "1 teaspoon vanilla extract", "Vegetable oil, for frying", "Chocolate glaze"],

@@ -5,21 +5,62 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config();
 
 dotenv.config();
-exports.getRefresh = async(req,res) =>{
-    return res.send("hello world");
-}
+exports.getRefresh = async(req,res) => {
+    // const cookies = req.cookies;
+    // if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+    // console.log(cookies);
+  
+    // const refreshToken = "123";
+  
+    // const foundUser = await User.findOne({ "refreshToken":123 });
+    // if (!foundUser) {
+    //   return res.status(403).json({ message: "Forbidden" });
+    // }
+  
+    // jwt.verify(
+    //   refreshToken,
+    //   process.env.REFRESH_TOKEN_SECRET,
+    //   async (err, decoded) => {
+    //     if (err || foundUser._id.toString() !== decoded.userId) {
+    //       return res.status(403).json({ message: "Forbidden" });
+    //     }
+  
+    //     const accessToken = jwt.sign(
+    //       {
+    //         UserInfo: {
+    //           userId: foundUser._id.toString(),
+    //           name: foundUser.name,
+    //           email: foundUser.email,
+    //           profilePicture: foundUser.profilePicture,
+    //           roles: foundUser.roles,
+    //           favorites: foundUser.favorites,
+    //         },
+    //       },
+    //       process.env.ACCESS_TOKEN_SECRET,
+    //       { expiresIn: "30m" }
+    //     );
+    //     res.json({ "accessToken":123 });
+    // }
+    // );
+    res.json({
+        "name": "John Doe",
+        "role": "admin",
+        "accessToken":"123",
+        "iat": "1609459200"
+      });
+  };
 
 exports.postregister=async(req,res)=>{
     try{
-        const {firstname,lastname,phone,email,password} = req.body;
+        const {name,email,password} = req.body;
         console.log(req.body)
-        console.log("First Name:", firstname);
-        console.log("Last Name:", lastname);
-        console.log("Phone:", phone);
+        console.log("First Name:", name);
+        // console.log("Last Name:", lastname);
+        // console.log("Phone:", phone);
         console.log("Email:", email);
         console.log("Password:", password);
 
-        if(!firstname || !lastname || !phone || !email || !password){
+        if(!name  || !email || !password){
             return res.status(400).send("Enter required data");
         }
         
@@ -35,7 +76,7 @@ exports.postregister=async(req,res)=>{
         encryptedPassword = await bcrypt.hash(password,10);
         
         //Creating new user
-        const newUser = new User (firstname,lastname,phone,email,encryptedPassword);
+        const newUser = new User (name,email,encryptedPassword);
 
         //return new user
         newUser.addUser();
