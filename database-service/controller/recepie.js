@@ -65,15 +65,26 @@ exports.findRecepieById = async (req,res,next) =>{
     console.log(id);
     try{
         const recepie = await Recepie.findRecepieById(id);
+        console.log("IN controller")
         console.log(recepie);
         if(!recepie){
             return res.status(404).send('Recepie not found');
         }
-        console.log(recepie)
-        return res.json(recepie);
+        // console.log(recepie)
+        return res.send(recepie);
     }
     catch(error){
         console.log(error);
         return  res.status(500).send('Error finding recepie by ID')
     }
+}
+
+exports.apisortbyrank=async (req,res,next)=>{
+    Recepie.sortbyrank()
+    .then(sortedRecipes=>{
+      res.send(sortedRecipes);
+    })
+    .catch(err=>{
+      console.log(err)
+    });
 }

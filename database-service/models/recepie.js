@@ -129,7 +129,7 @@ class Recepie{
     static async findRecepieById(id){
         return await RecepieModel.findById(id).then(data=>{
             console.log("success");
-            console.log(data);
+            // console.log(data);
             return data;
         }).catch(e => {
             console.log("error");
@@ -138,31 +138,30 @@ class Recepie{
         });
     }
     static async sortbyrank(){
-      try {
-          const recipes = await RecepieModel.aggregate([
-            {
-              $unwind: '$ratings', // Unwind the ratings array
-            },
-            {
-              $group: {
-                _id: '$_id', // Group by recipe ID
-                averageRating: { $avg: { $toDouble: '$ratings.rating' } }, // Calculate the average rating
-                recipe: { $first: '$$ROOT' }, // Preserve the recipe document
+        try {
+            const recipes = await RecepieModel.aggregate([
+              {
+                $unwind: '$ratings', // Unwind the ratings array
               },
-            },
-            {
-              $sort: { averageRating: -1 }, // Sort in descending order by average rating
-            },
-          ]);
-      
-          const sortedRecipes = recipes.map((recipeData) => recipeData.recipe);
-          return sortedRecipes;           
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
-      }         
-  }
-
+              {
+                $group: {
+                  _id: '$_id', // Group by recipe ID
+                  averageRating: { $avg: { $toDouble: '$ratings.rating' } }, // Calculate the average rating
+                  recipe: { $first: '$$ROOT' }, // Preserve the recipe document
+                },
+              },
+              {
+                $sort: { averageRating: -1 }, // Sort in descending order by average rating
+              },
+            ]);
+        
+            const sortedRecipes = recipes.map((recipeData) => recipeData.recipe);
+            return sortedRecipes;           
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Internal Server Error' });
+        }         
+    }
 }
 
 module.exports = {

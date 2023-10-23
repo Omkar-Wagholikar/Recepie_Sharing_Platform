@@ -3,41 +3,43 @@ const { mongoConnect } = require('../database/database.js');
 
 mongoConnect('user');
 
-const userSchema = new mongoose.Schema({
-    firstname: {
+const userSchema = new mongoose.Schema(
+    {
+      name: {
         type: String,
-        required: true
-    },
-    lastname: {
+      },
+      email: {
         type: String,
-        required: true
-    },
-    phone: {
-        type: Number,
-        required: true
-    },
-    email:{
+      },
+      password: {
         type: String,
-        required: true
+      },
+      profilePicture: { type: String, default: "" },
+      favorites: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Recipe",
+        },
+      ],
+      roles: {
+        type: [String],
+        default: ["BasicUser"],
+      },
+      isDisabled: { type: Boolean, default: false },
+      refreshToken: { type: [String] },
     },
-    password:{
-        type : String,
-        required:true
-    },
-    token : {
-        type:String,
-        required:true
+    {
+      timestamps: true,
     }
-
-})
+  );
 
 const userModel = mongoose.model('user',userSchema);
 
 class User{
-    constructor(firstname,lastname,phone,email,password){
+    constructor(firstname,email,password){
         this.firstname = firstname;
-        this.lastname = lastname,
-        this.phone=phone,
+        // this.lastname = lastname,
+        // this.phone=phone,
         this.email=email,
         this.password=password
     }
@@ -48,8 +50,8 @@ class User{
     async addUser(){
         const tempComment = new userModel({
             firstname: this.firstname,
-            lastname : this.lastname,
-            phone : this.phone,
+            // lastname : this.lastname,
+            // phone : this.phone,
             email : this.email,
             password : this.password,
             token:"123"

@@ -1,26 +1,25 @@
 import { apiSlice } from "../../redux/apiSlice";
 import { logOut, setCredentials } from "./authSlice";
-
-var baseUrl = "http://localhost:4000"
+var baseUrl = "http://localhost:4000/"
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.mutation({
       query: (credentials) => ({
-        url: baseUrl + "/login",
+        url:  baseUrl + "login",
         method: "POST",
         body: { ...credentials },
       }),
     }),
     signUp: builder.mutation({
       query: (credentials) => ({
-        url: baseUrl + "/register",
+        url:  baseUrl + "register",
         method: "POST",
         body: { ...credentials },
       }),
     }),
     logout: builder.mutation({
       query: () => ({
-        url: baseUrl + "/logout",
+        url:  baseUrl + "logout",
         method: "POST",
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
@@ -34,7 +33,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
     refresh: builder.mutation({
       query: () => ({
-        url: baseUrl + "/refresh",
+        url:  baseUrl + "refresh",
         method: "GET",
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
@@ -43,7 +42,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
           dispatch(setCredentials({ accessToken: data.accessToken }));
         } catch (err) {
           console.error(err);
-          console.log("Refresh issue");
         }
       },
     }),
