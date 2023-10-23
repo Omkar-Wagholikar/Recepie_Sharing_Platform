@@ -1,18 +1,22 @@
 const { User } = require('../models/usermodel');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
+const { encodeBase64, decodeBase64 } = require('bcryptjs');
 require('dotenv').config();
 
 dotenv.config();
 exports.getRefresh = async(req,res) => {
+    console.log("refresh")
     // const cookies = req.cookies;
     // if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
     // console.log(cookies);
   
     // const refreshToken = "123";
   
-    // const foundUser = await User.findOne({ "refreshToken":123 });
+    const foundUser = await User.findOne("abc@gmail.com");
+    console.log(foundUser);
     // if (!foundUser) {
     //   return res.status(403).json({ message: "Forbidden" });
     // }
@@ -25,29 +29,38 @@ exports.getRefresh = async(req,res) => {
     //       return res.status(403).json({ message: "Forbidden" });
     //     }
   
-    //     const accessToken = jwt.sign(
-    //       {
-    //         UserInfo: {
-    //           userId: foundUser._id.toString(),
-    //           name: foundUser.name,
-    //           email: foundUser.email,
-    //           profilePicture: foundUser.profilePicture,
-    //           roles: foundUser.roles,
-    //           favorites: foundUser.favorites,
-    //         },
-    //       },
-    //       process.env.ACCESS_TOKEN_SECRET,
-    //       { expiresIn: "30m" }
-    //     );
+        const accessToken = jwt.sign(
+          {
+            UserInfo: {
+              userId: foundUser._id.toString(),
+              name: foundUser.name,
+              email: foundUser.email,
+              profilePicture: foundUser.profilePicture,
+              roles: foundUser.roles,
+              favorites: foundUser.favorites,
+            },
+          },
+          "123",
+          { expiresIn: "30m" }
+        );
+        console.log(jwtDecode(accessToken))
+        res.json({ accessToken });
+
     //     res.json({ "accessToken":123 });
     // }
     // );
-    res.json({
-        "name": "John Doe",
-        "role": "admin",
-        "accessToken":"123",
-        "iat": "1609459200"
-      });
+    
+    // res.json({
+    //     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVaXN1TmFtZSI6IkRvZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInByb2ZpbGVQaWN0dXJlIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9wcm9maWxlUGljdHVyZS5qcGciLCJyb2xlcyI6WyJhZG1pbiJdLCJmYXZvcml0ZXMiOlsiYXZvciIsImJhciJdLCJpZCI6IjEyMyIsImlhdCI6MTYzMjYwNjE4NywiZXhwIjoxNjMyNjA3Nzg3fQ.Z-E01dTTNtS4BfW7D59La0W5vgL9b8z4zVwTQ8kCrRo",
+    //     UserInfo:{
+    //         userId: "foundUser._id.toString()",
+    //         name: "foundUser.name",
+    //         email: "foundUser.email",
+    //         profilePicture: "foundUser.profilePicture",
+    //         roles: "foundUser.roles",
+    //         favorites: "foundUser.favorites"
+    //     }
+    // });
   };
 
 exports.postregister=async(req,res)=>{
