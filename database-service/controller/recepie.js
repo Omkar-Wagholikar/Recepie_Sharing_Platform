@@ -67,3 +67,13 @@ exports.findRecepieById = async (req,res,next) =>{
         return  res.status(500).send('Error finding recepie by ID')
     }
 }
+
+exports.apisortbyrank=async (req,res,next)=>{
+    Recepie.sortbyrank()
+    .then(sortedRecipes=>{
+      res.send(sortedRecipes);
+    })
+    .catch(err=>{
+      console.log(err)
+    });
+}
