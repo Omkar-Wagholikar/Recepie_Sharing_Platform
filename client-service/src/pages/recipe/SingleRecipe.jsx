@@ -54,10 +54,12 @@ const SingleRecipe = () => {
     message: "",
   });
 
-  const sumOfRatings = data?.ratings.reduce(
-    (sum, item) => sum + item.rating,
-    0
-  );
+  // const sumOfRatings = data?.ratings.reduce(
+  //   (sum, item) => sum + item.rating,
+  //   0
+  // );
+  const sumOfRatings =0;
+  
   const averageRating =
     sumOfRatings === 0 ? 0 : sumOfRatings / data?.ratings.length;
 
@@ -181,7 +183,7 @@ const SingleRecipe = () => {
             <div className="basis-2/3 flex flex-col gap-2">
               <div className="flex justify-between">
                 <h2 className="font-bold text-xl md:text-3xl">{data?.title}</h2>
-                {data?.author?._id === user?.userId && (
+                {true && (
                   <>
                     <IconButton
                       aria-label="more"

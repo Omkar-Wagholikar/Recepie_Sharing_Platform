@@ -130,6 +130,7 @@ app.get("/recipe/:id", async (req, res) => {
       .then(response => {
         console.log("HERE");
         if (!response.ok) {
+          console.log(response);
           throw new Error('Network response was not ok');
         }
         return response.json();

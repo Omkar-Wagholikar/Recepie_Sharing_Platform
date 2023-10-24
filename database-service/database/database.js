@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 
 const mongoConnect = () => {
-  fs.readFile('../links.json', 'utf8', (err, data) => {
+  fs.readFile('./links.json', 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading JSON file:', err);
       return;
