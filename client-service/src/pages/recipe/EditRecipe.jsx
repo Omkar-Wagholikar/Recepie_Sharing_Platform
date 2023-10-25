@@ -12,6 +12,8 @@ import {
 import { useParams } from "react-router-dom";
 
 const EditRecipe = () => {
+  console.log("Hello world");
+  
   const { id } = useParams();
 
   const { data, ...rest } = useGetRecipeQuery(id);

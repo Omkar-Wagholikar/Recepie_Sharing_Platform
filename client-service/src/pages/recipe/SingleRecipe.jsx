@@ -164,6 +164,8 @@ const SingleRecipe = () => {
     setAnchorEl(null);
   };
 
+  console.log(data?.author?._id === user?.userId)
+  console.log(" -> " + data?.author?._id + " -< " + user?.userId)
   return (
     <>
       {rest?.isLoading ? (

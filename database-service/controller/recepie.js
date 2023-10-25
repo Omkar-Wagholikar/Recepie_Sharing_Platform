@@ -36,16 +36,20 @@ exports.updateRecepie=async (req,res,next)=>{
 }
 
 exports.deleteRecepie=async (req,res,next)=>{
-    var newData = {'name': "definitely batli"};
-    var filter = {"_id":'6511670846cb4764af1433f5'};
-    var bol = await Recepie.updateRecepie(filter, newData);
-    console.log(bol);
-    if (bol ){
-        console.log("RETURN WORKING");
-    } else {
-        console.log("MATHI KALI");
-    }
-    res.send("update recepie");
+    // var newData = {'name': "definitely batli"};
+    // var filter = {"_id":'6511670846cb4764af1433f5'};
+    const _id  = req.query._id;
+    console.log({_id});
+    const filter = {_id};
+    Recepie.deleteRecepie(filter);
+    // // var bol = await Recepie.updateRecepie(filter, newData);
+    // console.log(bol);
+    // if (bol ){
+    //     console.log("RETURN WORKING");
+    // } else {
+    //     console.log("MATHI KALI");
+    // }
+    res.send("deleted recepie");
 }
 
 exports.findRecepieById = async (req,res,next) =>{

@@ -2,8 +2,16 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const app = express();
 const { mongoConnect } = require('./database/database.js');
+
+app.use(cors());
+
+// Handle preflight requests
+app.options('*', cors());
+
 
 mongoConnect('Recepie_Project');
 
@@ -58,6 +66,7 @@ app.get('/deleteRecepie', RecepieController.deleteRecepie)
 app.put('/updateRecepie', RecepieController.updateRecepie);
 
 app.get('/findRecepie',RecepieController.findRecepieById);
+
 app.get('/byrank',RecepieController.apisortbyrank);
 // ========================================comment Block==================================
 
